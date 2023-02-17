@@ -1,6 +1,6 @@
 package com.co.softworld.interfaces;
 
-public interface ICalculadora {
+public interface ICalculator {
 
 	int add(int num1, int num2);
 

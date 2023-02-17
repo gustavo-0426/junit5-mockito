@@ -8,87 +8,83 @@ import static org.junit.jupiter.api.Assertions.assertTimeout;
 import java.time.Duration;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.co.softworld.interfaces.ICalculadora;
-import com.co.softworld.junit5.Calculadora;
+import com.co.softworld.interfaces.ICalculator;
+import com.co.softworld.junit5.Calculator;
 
-class CalculadoraTest {
+class CalculatorTest {
 
-	private static ICalculadora calculadora;
+	private static ICalculator calculator;
 
 	@BeforeAll
-	static void setUp() throws Exception {
-		calculadora = new Calculadora();
+	static void setUp() {
+		calculator = new Calculator();
 	}
 
 	@AfterAll
-	static void tearDown() throws Exception {
-		calculadora = null;
+	static void tearDown() {
+		calculator = null;
 	}
 
 	@Nested
 	class addTest {
 		@Test
 		void AddNotNullTest() {
-			assertNotNull(calculadora);
+			assertNotNull(calculator);
 		}
 
 		@Test
-		void AddAsserTest() {
-			assertEquals(30, calculadora.add(10, 20));
+		void AddAssertTest() {
+			assertEquals(30, calculator.add(10, 20));
 		}
 	}
 
 	@Nested
 	class subtractTest {
 		@Test
-		void subtractAsertTest() {
-			assertEquals(10, calculadora.subtract(10, 20));
+		void subtractAssertTest() {
+			assertEquals(10, calculator.subtract(10, 20));
 		}
 	}
 
-	@Nested // sirve para agrupar varios casos de test para un metodo.
+	@Nested // It is used to group several test cases for a method.
 	class divideTest {
 
 		@Test
-		void divideAsertTest() {
-			assertEquals(5, calculadora.divide(15, 3));
+		void divideAssertTest() {
+			assertEquals(5, calculator.divide(15, 3));
 		}
 		
 		@Test
-		void divideAsertDoubleRankTest() {
-			assertEquals(3.3, calculadora.divide(10, 3), 0.1);
+		void divideAssertDoubleRankTest() {
+			assertEquals(3.3, calculator.divide(10, 3), 0.1);
 		}
 
 		@Test
-		void divideAsertNegativeTest() {
-			assertEquals(2.5, calculadora.divide(5, 2));
+		void divideAssertNegativeTest() {
+			assertEquals(2.5, calculator.divide(5, 2));
 		}
 
 		@Test
-		void divideAsertExceptionTest() {
-			assertThrows(ArithmeticException.class, () -> calculadora.divide(2, 0));
+		void divideAssertExceptionTest() {
+			assertThrows(ArithmeticException.class, () -> calculator.divide(2, 0));
 		}
 
-		@Disabled("Este test se ha desabilitado de forma temporal")
+		@Disabled("this annotation is used to disable test")
 		@Test
-		void divideAsertExceptionDisableTest() {
-			assertThrows(ArithmeticException.class, () -> calculadora.divide(2, 0));
+		void divideAssertExceptionDisableTest() {
+			assertThrows(ArithmeticException.class, () -> calculator.divide(2, 0));
 		}
 	}
 
-	@ParameterizedTest(name = "{index} => num1={2}, num2={3}, suma= {5}")
+	@ParameterizedTest(name = "{index} => num1={2}, num2={3}, sum= {5}")
 	@MethodSource("addData")
-	void addParameterizedTest(int num1, int num2, int suma) {
-		assertEquals(suma, calculadora.add(num1, num2));
+	void addParameterizedTest(int num1, int num2, int sum) {
+		assertEquals(sum, calculator.add(num1, num2));
 	}
 
 	static Stream<Arguments> addData() {
@@ -98,7 +94,7 @@ class CalculadoraTest {
 
 	@Test
 	void longTaskOperationTimeOutTest() {
-		assertTimeout(Duration.ofMillis(2000), () -> calculadora.longTaskOperation());
+		assertTimeout(Duration.ofMillis(2000), () -> calculator.longTaskOperation());
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.co.softworld.junit5;
 
-import com.co.softworld.interfaces.ICalculadora;
+import com.co.softworld.interfaces.ICalculator;
+import lombok.extern.slf4j.Slf4j;
 
-public class Calculadora implements ICalculadora {
+@Slf4j
+public class Calculator implements ICalculator {
 
 	@Override
 	public int add(int num1, int num2) {
@@ -26,6 +28,7 @@ public class Calculadora implements ICalculadora {
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 		}
 	}
 
