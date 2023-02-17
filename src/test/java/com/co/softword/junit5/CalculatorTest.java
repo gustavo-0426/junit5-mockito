@@ -81,7 +81,7 @@ class CalculatorTest {
 		}
 	}
 
-	@ParameterizedTest(name = "{index} => num1={2}, num2={3}, sum= {5}")
+	@ParameterizedTest()
 	@MethodSource("addData")
 	void addParameterizedTest(int num1, int num2, int sum) {
 		assertEquals(sum, calculator.add(num1, num2));
