@@ -10,8 +10,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.*;
 
 import com.co.softworld.interfaces.ICalculator;
 import com.co.softworld.junit5.Calculator;
@@ -81,9 +80,34 @@ class CalculatorTest {
         }
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {2, 4, 6})
+    void addValueSourceParameterizedTest(int num1) {
+        int sum = 8;
+        int num2 = sum - num1;
+        assertEquals(sum, calculator.add(num1, num2));
+    }
+    @ParameterizedTest
+    @CsvSource({"3,5,8", "3,-2,1", "-3,2,-1", "-4,-1,-5"})
+    void addCsvSourceParameterizedTest (int num1, int num2, int sum) {
+        assertEquals(sum, calculator.add(num1, num2));
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"3:5:8", "3:-2:1", "-3:2:-1", "-4:-1:-5"}, delimiter = ':')
+    void addCsvSourceDelimiterParameterizedTest (int num1, int num2, int sum) {
+        assertEquals(sum, calculator.add(num1, num2));
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = {"/CsvFileTest.csv"})
+    void addCsvDelimiterParameterizedTest (int num1, int num2, int sum) {
+        assertEquals(sum, calculator.add(num1, num2));
+    }
+
     @ParameterizedTest()
     @MethodSource("addData")
-    void addParameterizedTest(int num1, int num2, int sum) {
+    void addMethodSourceParameterizedTest(int num1, int num2, int sum) {
         assertEquals(sum, calculator.add(num1, num2));
     }
 
@@ -99,8 +123,7 @@ class CalculatorTest {
 
     @Test
     void argumentCaptorTest() {
-        calculator.divide(15, 5);
-
+        assertEquals(3, calculator.divide(15, 5));
     }
 
 }
