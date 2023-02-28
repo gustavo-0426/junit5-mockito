@@ -1,11 +1,12 @@
 package com.co.softword.junit5;
 
+import static java.time.Duration.ofMillis;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
-import java.time.Duration;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.*;
@@ -118,7 +119,19 @@ class CalculatorTest {
 
     @Test
     void longTaskOperationTimeOutTest() {
-        assertTimeout(Duration.ofMillis(2000), () -> calculator.longTaskOperation());
+        assertTimeout(ofMillis(2000), () -> calculator.longTaskOperation());
+    }
+
+    @Test
+    @Timeout(2)
+    void longTaskOperationTimeOutAnnotationTest() {
+        calculator.longTaskOperation();
+    }
+
+    @Test
+    @Timeout(value = 2000, unit = MILLISECONDS)
+    void longTaskOperationTimeOutAnnotationCustomTest() {
+        calculator.longTaskOperation();
     }
 
     @Test
