@@ -1,12 +1,14 @@
 package com.co.softword.junit5;
 
 import static java.time.Duration.ofMillis;
+import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTimeout;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.*;
@@ -31,7 +33,7 @@ class CalculatorTest {
     }
 
     @Nested
-    class addTest {
+    class AddTest {
         @Test
         void AddNotNullTest() {
             assertNotNull(calculator);
@@ -44,7 +46,7 @@ class CalculatorTest {
     }
 
     @Nested
-    class subtractTest {
+    class SubtractTest {
         @Test
         void subtractAssertTest() {
             assertEquals(10, calculator.subtract(10, 20));
@@ -53,7 +55,7 @@ class CalculatorTest {
 
     @Nested
     @Tag("divide")
-    class divideTest {
+    class DivideTest {
 
         @Test
         void divideAssertTest() {
@@ -94,34 +96,54 @@ class CalculatorTest {
     @Tag("add")
     @ParameterizedTest
     @CsvSource({"3,5,8", "3,-2,1", "-3,2,-1", "-4,-1,-5"})
-    void addCsvSourceParameterizedTest (int num1, int num2, int sum) {
+    void addCsvSourceParameterizedTest(int num1, int num2, int sum) {
         assertEquals(sum, calculator.add(num1, num2));
     }
 
     @Tag("add")
     @ParameterizedTest
     @CsvSource(value = {"3:5:8", "3:-2:1", "-3:2:-1", "-4:-1:-5"}, delimiter = ':')
-    void addCsvSourceDelimiterParameterizedTest (int num1, int num2, int sum) {
+    void addCsvSourceDelimiterParameterizedTest(int num1, int num2, int sum) {
         assertEquals(sum, calculator.add(num1, num2));
     }
 
     @Tag("add")
     @ParameterizedTest
     @CsvFileSource(resources = {"/CsvFileTest.csv"})
-    void addCsvDelimiterParameterizedTest (int num1, int num2, int sum) {
+    void addCsvDelimiterParameterizedTest(int num1, int num2, int sum) {
         assertEquals(sum, calculator.add(num1, num2));
     }
 
     @Tag("add")
     @ParameterizedTest()
-    @MethodSource("addData")
-    void addMethodSourceParameterizedTest(int num1, int num2, int sum) {
+    @MethodSource("addDataStream")
+    void addMethodSourceParameterizedStreamTest(int num1, int num2, int sum) {
         assertEquals(sum, calculator.add(num1, num2));
     }
 
-    static Stream<Arguments> addData() {
-        return Stream.of(Arguments.of(3, 5, 8), Arguments.of(3, -2, 1), Arguments.of(-3, 2, -1),
-                Arguments.of(-4, -1, -5));
+    @Tag("add")
+    @ParameterizedTest()
+    @MethodSource("addDataList")
+    void addMethodSourceParameterizedListTest(int num1, int num2, int sum) {
+        assertEquals(sum, calculator.add(num1, num2));
+    }
+
+    static Stream<Arguments> addDataStream() {
+        return Stream.of(
+                Arguments.of(3, 5, 8),
+                Arguments.of(3, -2, 1),
+                Arguments.of(-3, 2, -1),
+                Arguments.of(-4, -1, -5)
+        );
+    }
+
+    static List<Arguments> addDataList() {
+        return asList(
+                Arguments.of(3, 5, 8),
+                Arguments.of(3, -2, 1),
+                Arguments.of(-3, 2, -1),
+                Arguments.of(-4, -1, -5)
+        );
     }
 
     @Test
